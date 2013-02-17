@@ -1,0 +1,16 @@
+* Server
+config file f. Pfade, serial, API Keys, Zeitzone?
+daten und error log trennen
+serial reader als skript und service
+data und img file in config
+Cosm API raus aus code?
+1440px Bild unabhängig von den Daten. ggf. interpolieren.
+
+FB upload ausserhalb
+andere FB lib testen, nicht facebook-sdk
+drawDaymage holt Pfade aus der modul config
+
+* Sensor
+1 Sample jede Sekunde sammeln, daraus avg bilden
+avg und max werte in einem Packet 1 sample pro minute
+senden

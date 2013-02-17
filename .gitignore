@@ -1,0 +1,8 @@
+.DS_Store
+odol.egg-info/
+dist/
+build/
+*.pyc
+*.tar.gz
+*.png
+
