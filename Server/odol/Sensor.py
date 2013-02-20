@@ -44,4 +44,8 @@ class Sensor():
 		self.logger.log(100, ",".join(str(v) for v in _data))	
 	
 	def isDummySerial(self):
-		return self.ser.__module__ == "odol.dummy_serial"			
+		return self.ser.__module__ == "odol.dummy_serial"
+		
+	def getData(self):
+		data = struct.unpack("<chhhh", self.ser.read(9))
+		return data				

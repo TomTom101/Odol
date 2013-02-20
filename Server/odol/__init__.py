@@ -1,4 +1,4 @@
-import logging
+import logging.handlers
 import ConfigParser
 
 __all__ = ['Sensor']

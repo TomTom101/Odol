@@ -164,7 +164,15 @@ class Serial():
             returndata = bytes(returnstring, encoding='latin1')
         time.sleep(.1)
         return returndata
-
+        
+    def inWaiting(self):
+        try:
+            returnstring = RESPONSES[self._latestWrite]   
+        except:
+            returnstring = DEFAULT_RESPONSE
+		
+        return len(returnstring)
+            	
 def _print_out( inputstring ):
     """Print the inputstring. To make it compatible with Python2 and Python3."""    
     sys.stdout.write(inputstring + '\n')    

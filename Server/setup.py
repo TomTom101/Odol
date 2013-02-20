@@ -12,7 +12,7 @@ config = {
     'version': '0.1',
     'install_requires': ['nose', 'python-eeml', 'pyserial'],
     'packages': ['odol', 'tests'],
-    'scripts': ['scripts/drawDaymage.py'],
+    'scripts': ['scripts/service.py'],
     'name': 'odol'
 }
 
