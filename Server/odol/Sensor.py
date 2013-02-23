@@ -10,8 +10,9 @@ def new(port=None):
 	return Sensor(port)
 	
 class Sensor():
+
 	def __init__(self, port):
-		self.data_path = odol.config.get('default', 'data_path')
+		self.data_path = odol.config.get('data', 'data_path')
 		""" init the data logger """
 		self.__logger()
 		self._port = port or '/dummy'
@@ -36,7 +37,7 @@ class Sensor():
 					
 		fh.setLevel('DATA')	
 		fh.setFormatter(formatter)
-		fh.suffix = "%Y-%m-%d"
+		fh.suffix = odol.config.get('data', 'log_suffix')
 		self.logger = logging.getLogger(__name__)
 		self.logger.addHandler(fh)	
 	

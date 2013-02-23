@@ -1,7 +1,7 @@
 import logging.handlers
 import ConfigParser
 
-__all__ = ['Sensor']
+__all__ = ['Sensor', 'Cosm']
 __authors__ = "Thomas Brandl"
 __license__ = "GPLv3"
 __versioninfo__ = (0, 0, 1)
@@ -23,5 +23,7 @@ fh.setLevel(logging.WARNING)
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
+
+print __name__
 config = ConfigParser.ConfigParser()
-config.read(__name__ + '.cfg')
+config.read(__name__ + '_test.cfg')
