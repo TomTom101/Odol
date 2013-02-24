@@ -10,7 +10,7 @@ config = {
     'download_url': 'Where to download it.',
     'author_email': 'thobra@gmail.com',
     'version': '0.1',
-    'install_requires': ['nose', 'python-eeml', 'pyserial'],
+    'install_requires': ['nose', 'python-eeml', 'pyserial', 'facebook-sdk', 'numpy'],
     'packages': ['odol', 'tests'],
     'scripts': ['scripts/service.py'],
     'name': 'odol'

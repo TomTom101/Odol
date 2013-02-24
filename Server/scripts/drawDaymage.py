@@ -23,7 +23,7 @@ def createImage(logfile, width=1440):
 		logger.warn(imagefile + " already exists")
 		return None
 	
-	logger.info("Creating image from", logfile)
+	logger.info("Creating image from" + logfile)
 	
 	im = Image.new('RGBA', (width, 100), (0, 0, 0, 0))
 	draw = ImageDraw.Draw(im)
@@ -48,7 +48,6 @@ def createImage(logfile, width=1440):
 	for i in range(len(x)):
 		draw.line((i, 0, i, 100), fill=(int(r[i]),int(g[i]),int(b[i])))
 		
-	imagefile = odol.config.get('data', 'img_path') + "/" + os.path.basename(logfile) + ".png"
 	im.save(imagefile, "PNG")
 	return imagefile
 

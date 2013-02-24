@@ -5,18 +5,23 @@ from odol import *
 import random
 
 logfile = None
+
 def setup_func():
 	import odol, ConfigParser
 	global logfile
 	logfile = "%s/%s.log" % (odol.config.get('data', 'data_path'), Sensor.__name__)
-#	odol.config = ConfigParser.ConfigParser()
-	odol.config.read(__name__ + '_test.cfg')
+	if os.path.exists(logfile):
+		os.remove(logfile)
 	
 def teardown_func():
-	""" notinh """
-	#os.remove(logfile)
+	import logging
+	x = logging._handlers.copy()
+	for i in x:
+		log.removeHandler(i)
+		i.flush()
+		i.close()
 	
-
+"""
 @with_setup(setup_func, teardown_func)	
 def test_config():
 	import odol
@@ -34,6 +39,7 @@ def test_serial():
 
 	#sensor = Sensor.new('/dev/bogus')
 	#dummy_serial.DEFAULT_RESPONSE = struct.pack("<chhhh", '#', 1023, 1023, 1023, 1023)
+"""
 
 @with_setup(setup_func, teardown_func)	
 def test_read_log():
@@ -53,11 +59,13 @@ def test_read_log():
 		assert data[1][0] >= 0
 		assert data[1][1] == 0
 		assert data[1][2] == 0
-		
+"""		
 def test_create_image():
 	import odol
 	from scripts import drawDaymage
-	createImage(odol.config.get('data', 'data_path') + "/odol.Sensor.log")
+	img_file = createImage(os.getcwd() + "/tests/odol.Sensor_min.log")
+	assert os.path.exists(img_file)
+"""
 
 def test_is_dummy():
 	sensor = Sensor.new()
