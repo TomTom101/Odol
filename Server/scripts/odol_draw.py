@@ -9,9 +9,9 @@ logger = logging.getLogger('odol.drawDaymage')
 
 """
 Started by cron every night 10 minutes past midnight:
-10 0 * * * cd /home/pi/rgbc-0.2/scripts && ./drawDaymage.py
+10 0 * * * cd /home/pi/odol-0.1/scripts && ./drawDaymage.py
 """
-def createImage(logfile, width=1440):
+def createImage(logfile, width=1440, height=445):
 	global logger
 	import Image, ImageDraw, time
 	from datetime import tzinfo, datetime
@@ -25,7 +25,7 @@ def createImage(logfile, width=1440):
 	
 	logger.info("Creating image from" + logfile)
 	
-	im = Image.new('RGBA', (width, 100), (0, 0, 0, 0))
+	im = Image.new('RGBA', (width, height), (0, 0, 0, 0))
 	draw = ImageDraw.Draw(im)
 	xp, fp = [], []
 	
@@ -46,7 +46,7 @@ def createImage(logfile, width=1440):
 	c =  np.interp(x, xp, nfp[:,3])
 	
 	for i in range(len(x)):
-		draw.line((i, 0, i, 100), fill=(int(r[i]),int(g[i]),int(b[i])))
+		draw.line((i, 0, i, height), fill=(int(r[i]),int(g[i]),int(b[i])))
 		
 	im.save(imagefile, "PNG")
 	return imagefile
@@ -60,10 +60,9 @@ logfile = odol.config.get('data', 'data_path') + "/odol.Sensor.log." + yesterday
 if os.path.exists(logfile):
 	imglocation = createImage(logfile)
 	if imglocation == None:
-		sys.exit()
-		
+		sys.exit()		
 else:
-	logger.error("Logfile is missing:", logfile)
+	logger.error("Logfile is missing:" + logfile)
 	sys.exit()
 
 token = odol.config.get('facebook', 'token')
