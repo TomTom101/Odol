@@ -17,7 +17,7 @@ const int avgValues = 5;
 unsigned int sensorAvg[4][avgValues];
 
 boolean debug = false;
-boolean use_stored_calibration = false;
+boolean use_stored_calibration = true;
 
 Calibration cal = Calibration();
 
@@ -55,9 +55,9 @@ void setup() {
    */
 
   if(use_stored_calibration) {
-    cal.colorHalf = 200;
-    cal.clearHalf = 150;
-    cal.capacitor.red = 10;
+    cal.colorHalf = 150;
+    cal.clearHalf = 100;
+    cal.capacitor.red = 7;
     cal.capacitor.green = 5;
     cal.capacitor.blue = 0;
 
@@ -138,17 +138,19 @@ void loop() {
     logger(color);
   }
 
-
-
   if(!debug) {
     Serial.write("#");
-    Serial.write(getMultibyteFromInt(getAvg(0, color.red)), 2);
-    Serial.write(getMultibyteFromInt(getAvg(1, color.green)), 2);
-    Serial.write(getMultibyteFromInt(getAvg(2, color.blue)), 2);
-    Serial.write(getMultibyteFromInt(getAvg(3, color.clear)), 2);
+//    Serial.write(getMultibyteFromInt(getAvg(0, color.red)), 2);
+//    Serial.write(getMultibyteFromInt(getAvg(1, color.green)), 2);
+//    Serial.write(getMultibyteFromInt(getAvg(2, color.blue)), 2);
+//    Serial.write(getMultibyteFromInt(getAvg(3, color.clear)), 2);
+    Serial.write(getMultibyteFromInt(color.red), 2);
+    Serial.write(getMultibyteFromInt(color.green), 2);
+    Serial.write(getMultibyteFromInt(color.blue), 2);
+    Serial.write(getMultibyteFromInt(color.clear), 2);    
     // 4 individuelle writes ..., nicht ein int array
   }
-  delay(40);
+  delay(60000);
 }
 
 byte* getMultibyteFromInt(int i) {

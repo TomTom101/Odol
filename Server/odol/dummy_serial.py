@@ -149,7 +149,7 @@ class Serial():
         """ 
         
         try:
-            returnstring = RESPONSES[self._latestWrite]   
+            returnstring = RESPONSES[self._latestWrite]
         except:
             returnstring = DEFAULT_RESPONSE    
 
@@ -163,7 +163,7 @@ class Serial():
         if sys.version_info[0] > 2: # Convert types to make it python3 compatible
             returndata = bytes(returnstring, encoding='latin1')
         time.sleep(.1)
-        return returndata
+        return returndata[0:numberOfBytes]
         
     def inWaiting(self):
         try:
