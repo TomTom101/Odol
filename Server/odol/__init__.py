@@ -2,7 +2,7 @@ import os
 import logging.handlers
 import ConfigParser
 
-__all__ = ['Sensor', 'Cosm']
+__all__ = ['Sensor', 'Cosm', 'Draw']
 __authors__ = "Thomas Brandl"
 __license__ = "GPLv3"
 __versioninfo__ = (0, 0, 2)

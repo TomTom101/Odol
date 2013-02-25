@@ -5,15 +5,12 @@ from odol import *
 import random
 
 logfile = None
+imgFile = None
 
-def setup_func():
-	import odol, ConfigParser
-	global logfile
-	logfile = "%s/%s.log" % (odol.config.get('data', 'data_path'), Sensor.__name__)
-	if os.path.exists(logfile):
-		os.remove(logfile)
-	
 def teardown_func():
+	close_handlers()
+
+def close_handlers():
 	import logging
 	x = logging._handlers.copy()
 	for i in x:
@@ -39,14 +36,17 @@ def test_serial():
 
 	#sensor = Sensor.new('/dev/bogus')
 	#dummy_serial.DEFAULT_RESPONSE = struct.pack("<chhhh", '#', 1023, 1023, 1023, 1023)
-"""
 
-@with_setup(setup_func, teardown_func)	
+
+@with_setup(None, teardown_func)	
 def test_read_log():
 	import odol
 	from math import ceil
 
 	sensor = Sensor.new('/dev/bogus')
+	logfile = os.path.join(os.path.dirname(__file__), "odol.Sensor_min.log")
+	if os.path.exists(logfile):
+		os.remove(logfile)	
 	
 	i = 1
 	samples = 64
@@ -54,29 +54,23 @@ def test_read_log():
 		sensor.log((int(ceil(i-1)),0,0,0))
 		i+=1024/samples
 		sleep(0.1)
-	print logfile
+		
+	close_handlers()
+
 	for column, data in enumerate(sensor.load_logfile(logfile)):
 		assert data[1][0] >= 0
 		assert data[1][1] == 0
 		assert data[1][2] == 0
-		
+"""		
 def test_create_image():
 	import odol
-	from scripts import odol_draw
-	img_file = odol_draw.createImage(os.getcwd() + "/tests/odol.Sensor_min.log")
+	global logfile
+	logfile = os.path.join(os.path.dirname(__file__), "odol.Sensor_min.log")
+	draw = Draw.new(logfile)
+	img_file = draw.createImage()
+	assert img_file != None
 	assert os.path.exists(img_file)
-
 
 def test_is_dummy():
 	sensor = Sensor.new()
 	assert sensor.isDummySerial() == True
-	
-def test_cosm():
-	import threading
-	import odol
-	data = [10,20,300,128]
-	cosm = Cosm.new()
-	cosm.record(data)
-	t = threading.Timer(1, cosm.record, [cosm, data], {});
-	t.daemon = True
-	t.start()
