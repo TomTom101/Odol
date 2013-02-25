@@ -54,18 +54,18 @@ def test_read_log():
 		sensor.log((int(ceil(i-1)),0,0,0))
 		i+=1024/samples
 		sleep(0.1)
-
+	print logfile
 	for column, data in enumerate(sensor.load_logfile(logfile)):
 		assert data[1][0] >= 0
 		assert data[1][1] == 0
 		assert data[1][2] == 0
-"""		
+		
 def test_create_image():
 	import odol
-	from scripts import drawDaymage
-	img_file = createImage(os.getcwd() + "/tests/odol.Sensor_min.log")
+	from scripts import odol_draw
+	img_file = odol_draw.createImage(os.getcwd() + "/tests/odol.Sensor_min.log")
 	assert os.path.exists(img_file)
-"""
+
 
 def test_is_dummy():
 	sensor = Sensor.new()

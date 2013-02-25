@@ -1,3 +1,4 @@
+import os
 import logging.handlers
 import ConfigParser
 
@@ -25,4 +26,10 @@ logger.addHandler(fh)
 logger.setLevel(logging.INFO)
 
 config = ConfigParser.ConfigParser()
-config.read(__name__ + '.cfg')
+config_file = __name__ + '.cfg'
+def_config_path = os.path.join(os.path.dirname(__file__), config_file)
+config_path = os.path.join(os.path.expanduser("~/odol"), config_file)
+
+config.readfp(open(def_config_path))
+config.set('data', 'home_path', os.path.expanduser("~"))
+config.read(config_path)

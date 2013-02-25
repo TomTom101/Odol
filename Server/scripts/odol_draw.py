@@ -5,11 +5,11 @@ from datetime import date, timedelta
 import odol
 from odol.Sensor import Sensor
 
-logger = logging.getLogger('odol.drawDaymage')
+logger = logging.getLogger('odol.odol_draw')
 
 """
 Started by cron every night 10 minutes past midnight:
-10 0 * * * cd /home/pi/odol-0.1/scripts && ./drawDaymage.py
+10 0 * * * cd /home/pi/odol-0.1/scripts && ./odol_draw.py
 """
 def createImage(logfile, width=1440, height=445):
 	global logger
