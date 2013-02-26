@@ -27,7 +27,6 @@ logger = logging.getLogger(__name__)
 
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh = logging.FileHandler(os.path.join(config.get('data', 'log_path'), __name__ + '.log'))
-print os.path.join(config.get('data', 'data_path'), __name__ + '.log')
 fh.addFilter(DataFilter())
 fh.setLevel(logging.INFO)	
 fh.setFormatter(formatter)
