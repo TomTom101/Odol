@@ -34,13 +34,13 @@ class Draw():
 			fp.append(list(data[1]))
 
 		nfp = np.array(fp)
-		x = np.linspace(0, 86400, num=self.width)
 
-		# Wertebereucgt ist 86400, 1440 werte werden gebraucht, im 60 abstand
+		# Wertebereich ist 86400, 1440 werte werden gebraucht, im 60 abstand
+		x = np.linspace(0, 86400, num=self.width)
 		r =  np.interp(x, xp, nfp[:,0])
 		g =  np.interp(x, xp, nfp[:,1])
 		b =  np.interp(x, xp, nfp[:,2])
-		c =  np.interp(x, xp, nfp[:,3])
+		c =  np.interp(x, xp, nfp[:,3]) # not used so far
 	
 		for i in range(len(x)):
 			draw.line((i, 0, i, self.height), fill=(int(r[i]),int(g[i]),int(b[i])))
