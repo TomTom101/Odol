@@ -5,3 +5,5 @@ build/
 *.pyc
 *.tar.gz
 *.png
+data/
+test_data/
