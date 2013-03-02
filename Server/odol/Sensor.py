@@ -49,14 +49,16 @@ class Sensor():
 		return ",".join(str(v) for v in data)
 			
 	@staticmethod
-	def load_logfile(filename, map_ratio=4.011764706):
+	def load_logfile(filename, max=255):
 		import csv
 		from math import ceil
+		
+		map_ratio = 1023.0/max
 
 		try:
 			for line in csv.reader(open(filename), delimiter=' ', skipinitialspace=True):
 				try:
-					yield line[1], map(lambda x: int(ceil(int(x)/map_ratio)), line[len(line)-1].split(","))
+					yield line[1], map(lambda x: int(x)/map_ratio, line[len(line)-1].split(","))
 				except:
 					pass
 		except (IOError):

@@ -17,6 +17,7 @@ def close_handlers():
 		log.removeHandler(i)
 		i.flush()
 		i.close()
+
 	
 """
 @with_setup(setup_func, teardown_func)	
@@ -62,10 +63,22 @@ def test_read_log():
 		assert data[1][1] == 0
 		assert data[1][2] == 0
 """		
+
+def test_num():
+
+	assert int(1024/4)  == 256
+	
+def test_interpolate():
+	import odol
+	logfile = os.path.join(os.path.dirname(__file__), "data", "odol.Sensor_full.log")
+	max_value = 255
+	x = Draw.Draw.interpolate_data(odol.Sensor.Sensor.load_logfile(logfile, max_value), num=100)
+	assert max(x['r']) <= max
+
 def test_create_image():
 	import odol
 	global logfile
-	logfile = os.path.join(os.path.dirname(__file__), "odol.Sensor_min.log")
+	logfile = os.path.join(os.path.dirname(__file__), "data", "odol.Sensor_min.log")
 	draw = Draw.new(logfile)
 	img_file = draw.createImage()
 	assert img_file != None
