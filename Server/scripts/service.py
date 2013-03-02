@@ -26,6 +26,7 @@ try:
 	while 1:
 		if sensor.ser.inWaiting() > 0:
 			sensor.getData()
+		sleep(1) # prevent CPU hogging
 
 except (KeyboardInterrupt, SystemExit):
 	sys.exit()

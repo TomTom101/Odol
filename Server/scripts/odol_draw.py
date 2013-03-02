@@ -21,6 +21,7 @@ if os.path.exists(logfile):
 	draw = Draw.new(logfile)
 	imglocation = draw.createImage()
 	if imglocation == None:
+		logger.error("No image was created!")
 		sys.exit()		
 else:
 	logger.error("Logfile is missing:" + logfile)
