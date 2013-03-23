@@ -2,12 +2,10 @@
 #include <Calibration.h>
 #include <Wire.h>
 
+//#define DEBUG
+
 int sensorLed_pin = 2; //LED on the ADJDS-311
 ADJDS311 colorSensor(sensorLed_pin);
-byte reset[] = {
-  0,0,0,0};
-
-byte rgbc[4];
 
 // These constants won't change:
 const int sensorPin = A0;    // pin that the sensor is attached to
@@ -16,7 +14,6 @@ const int ledPin = 13;        // pin that the LED is attached to
 const int avgValues = 5;
 unsigned int sensorAvg[4][avgValues];
 
-boolean debug = false;
 boolean use_stored_calibration = true;
 
 Calibration cal = Calibration();
@@ -70,21 +67,18 @@ void setup() {
   sendCalibrationData(cal);
   colorSensor.ledOff(); //turn LED on
 
-  if(debug) { 
-    Serial.println("Calibration settings");
-    Serial.print("color half: " );
-    Serial.println(cal.colorHalf);  // This calibrates R, G, and B int registers
-    Serial.print("clear half: " );
-    Serial.println(cal.clearHalf);  // This calibrates the C int registers
-    Serial.print("red: " );
-    Serial.println(cal.capacitor.red);
-    Serial.print("green: " );
-    Serial.println(cal.capacitor.green);
-    Serial.print("blue: ");
-    Serial.println(cal.capacitor.blue);
-  }
-
-  //Serial.write(reset, 4);
+#ifdef DEBUG
+  Serial.print("color half: " );
+  Serial.println(cal.colorHalf);  // This calibrates R, G, and B int registers
+  Serial.print("clear half: " );
+  Serial.println(cal.clearHalf);  // This calibrates the C int registers
+  Serial.print("red: " );
+  Serial.println(cal.capacitor.red);
+  Serial.print("green: " );
+  Serial.println(cal.capacitor.green);
+  Serial.print("blue: ");
+  Serial.println(cal.capacitor.blue);
+#endif
 
 }
 
@@ -98,16 +92,6 @@ void sendCalibrationData(Calibration cal) {
 
 }
 
-void logger(RGBC color) {
-  Serial.print(color.red);
-  Serial.print(", ");
-  Serial.print(color.green);
-  Serial.print(", ");
-  Serial.print(color.blue);
-  Serial.print(", ");
-  Serial.println(color.clear);
-
-}
 
 void loop() {
   if(Serial.available()) {
@@ -134,22 +118,20 @@ void loop() {
 
   // read the sensor:
   RGBC color = colorSensor.read();
-  if(debug) {
-    logger(color);
-  }
 
-  if(!debug) {
-    Serial.write("#");
-//    Serial.write(getMultibyteFromInt(getAvg(0, color.red)), 2);
-//    Serial.write(getMultibyteFromInt(getAvg(1, color.green)), 2);
-//    Serial.write(getMultibyteFromInt(getAvg(2, color.blue)), 2);
-//    Serial.write(getMultibyteFromInt(getAvg(3, color.clear)), 2);
-    Serial.write(getMultibyteFromInt(color.red), 2);
-    Serial.write(getMultibyteFromInt(color.green), 2);
-    Serial.write(getMultibyteFromInt(color.blue), 2);
-    Serial.write(getMultibyteFromInt(color.clear), 2);    
-    // 4 individuelle writes ..., nicht ein int array
-  }
+#ifndef DEBUG
+  Serial.write("#");
+  //    Serial.write(getMultibyteFromInt(getAvg(0, color.red)), 2);
+  //    Serial.write(getMultibyteFromInt(getAvg(1, color.green)), 2);
+  //    Serial.write(getMultibyteFromInt(getAvg(2, color.blue)), 2);
+  //    Serial.write(getMultibyteFromInt(getAvg(3, color.clear)), 2);
+  Serial.write(getMultibyteFromInt(color.red), 2);
+  Serial.write(getMultibyteFromInt(color.green), 2);
+  Serial.write(getMultibyteFromInt(color.blue), 2);
+  Serial.write(getMultibyteFromInt(color.clear), 2);    
+  // 4 individuelle writes ..., nicht ein int array
+#endif
+
   delay(60000);
 }
 
@@ -164,8 +146,6 @@ byte* getMultibyteFromInt(int i) {
 
 }
 
-
-
 int getAvg(int index, int reading) {
   int avg = reading;
   for(int i=avgValues-1;i>0;i--) {
@@ -177,5 +157,7 @@ int getAvg(int index, int reading) {
 
   return round(avg/avgValues);
 }
+
+
 
 
