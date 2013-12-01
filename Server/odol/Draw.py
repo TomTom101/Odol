@@ -5,16 +5,17 @@ from datetime import tzinfo, datetime
 from math import floor
 import numpy as np
 
-def new(datafile, width=1440, height=445):
-	return Draw(datafile, width, height)
+def new(datafile, width=1440, height=445, mode="h"):
+	return Draw(datafile, width, height, mode)
 	
 class Draw():
-	def __init__(self, datafile, width, height):
+	def __init__(self, datafile, width, height, mode):
 		self.logger = logging.getLogger(__name__)
 		self.imagefile = odol.config.get('data', 'img_path') + "/" + os.path.basename(datafile) + ".png"
 		self.datafile = datafile
 		self.width = width
 		self.height = height
+		self.mode = mode
 		
 	def imageExists(self):
 		return os.path.exists(self.imagefile)
@@ -48,10 +49,14 @@ class Draw():
 	
 		im = Image.new('RGBA', (self.width, self.height), (0, 0, 0, 0))
 		draw = ImageDraw.Draw(im)
-		data = Draw.interpolate_data(odol.Sensor.Sensor.load_logfile(self.datafile), self.width)
+		data = Draw.interpolate_data(odol.Sensor.Sensor.load_logfile(self.datafile), self.width if self.mode == "h" else self.height)
 	
 		for i in range(len(data['r'])):
-			draw.line((i, 0, i, self.height), fill=(int(data['r'][i]),int(data['g'][i]),int(data['b'][i])))
+			fill_color = fill=(int(data['r'][i]),int(data['g'][i]),int(data['b'][i]))
+			if self.mode == "v":
+				draw.line((0, i, self.width, i), fill=fill_color)
+			else:
+				draw.line((i, 0, i, self.height), fill=fill_color)
 		
 		im.save(self.imagefile, "PNG")
 		return self.imagefile
