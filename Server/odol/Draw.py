@@ -48,7 +48,7 @@ class Draw():
 	
 		im = Image.new('RGBA', (self.width, self.height), (0, 0, 0, 0))
 		draw = ImageDraw.Draw(im)
-		data = Draw.interpolate_data(odol.Sensor.Sensor.load_logfile(self.datafile))
+		data = Draw.interpolate_data(odol.Sensor.Sensor.load_logfile(self.datafile), self.width)
 	
 		for i in range(len(data['r'])):
 			draw.line((i, 0, i, self.height), fill=(int(data['r'][i]),int(data['g'][i]),int(data['b'][i])))
