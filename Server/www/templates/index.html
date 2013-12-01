@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{{ url_for('css.static', filename='main.css') }}">
+<link rel="shortcut icon" href="{{ url_for('css.static', filename='favicon.ico') }}">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+	$("#gen-img").on("click", function(event) {
+		$(this).attr("disabled", "disabled");
+		$.getJSON('/_get_image_src', function(data) {
+			$('<img />', {
+				src: data.src
+			}).prependTo("#images");
+			$("#gen-img").removeAttr("disabled");  
+      	});
+	});
+
+{% for color, data in history.iteritems() %}
+$('<div />', {
+	class: "color-box",
+	id: "{{ color }}",
+	title: "{{ data.t }}",
+}).text("{{ color }}").css("background-color", "rgb({{ data.r|int }}, {{ data.g|int }}, {{ data.b|int }})").prependTo("#container");
+{% endfor %}
+
+});
+
+</script>
+</head>
+<body>
+<title>One Day of Light</title>
+	<div id="log"><pre>{{ messages }}</pre></div>
+
+<div id="container">
+	<button id="gen-img">Generate image</button>
+	<div id="images"></div>
+</div>
+
+</body>
+</html>
