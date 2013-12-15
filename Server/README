@@ -1,4 +1,5 @@
 INSTALL
+$ /etc/rc.local
 su pi -c '/usr/bin/python /usr/local/bin/odol-service.py -p /dev/ttyUSB0 > /home/pi/odol.log 2>&1 &' 
 su pi -c '/usr/bin/python /usr/local/bin/odol-server.py > /home/pi/odol.log 2>&1 &'
 
