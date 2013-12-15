@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys, os, json, facebook, logging
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 import odol
 from odol import *
 from optparse import OptionParser
@@ -18,12 +18,12 @@ Started by cron every night 10 minutes past midnight:
 """
 
 if options.day == None:
-	yesterday = date.today() - timedelta(days=1)
+	theday = date.today() - timedelta(days=1)
 	log_suffix = odol.config.get('data', 'log_suffix')
-	logfile = odol.config.get('data', 'data_path') + "/odol.Sensor.log." + yesterday.strftime(log_suffix)
+	logfile = odol.config.get('data', 'data_path') + "/odol.Sensor.log." + theday.strftime(log_suffix)
 else:
+	theday = datetime.strptime(options.day,'%Y-%m-%d')
 	logfile = odol.config.get('data', 'data_path') + "/odol.Sensor.log." + options.day
-
 
 # Bild wird nicht gespeichert, wo es gesucht wird
 if os.path.exists(logfile):
@@ -47,4 +47,4 @@ if options.facebook == True:
 	for account in accounts['data']:
 		if account['id'] == page_id:
 			graph = facebook.GraphAPI(account['access_token'])
-			graph.put_photo(open(imglocation), yesterday.strftime("%A, %B %d"), page_id)
+			graph.put_photo(open(imglocation), theday.strftime("%A, %B %d"), page_id)

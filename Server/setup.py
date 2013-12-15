@@ -10,7 +10,7 @@ config = {
     'version': '0.22',
     'install_requires': ['nose', 'python-eeml', 'pyserial', 'facebook-sdk', 'numpy'],
     'packages': ['odol', 'tests'],
-    'scripts': ['scripts/odol-service.py', 'scripts/odol-draw.py'],
+    'scripts': ['scripts/odol-service.py', 'www/odol-server.py', 'scripts/odol-draw.py'],
     'name': 'odol'
 }
 

@@ -3,6 +3,8 @@ $ /etc/rc.local
 su pi -c '/usr/bin/python /usr/local/bin/odol-service.py -p /dev/ttyUSB0 > /home/pi/odol.log 2>&1 &' 
 su pi -c '/usr/bin/python /usr/local/bin/odol-server.py > /home/pi/odol.log 2>&1 &'
 
+tar -xzf odol-0.22.tar.gz && cd odol-0.22/ && sudo python setup.py develop
+
 TESTS
 clear && python setup.py nosetests --nocapture -d
 

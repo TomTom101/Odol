@@ -9,7 +9,6 @@
 # Description:
 ### END INIT INFO
 
-
 # chmod +x /etc/init.d/service.sh
 # update-rc.d service.sh defaults
 
