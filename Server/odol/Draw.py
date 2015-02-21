@@ -50,7 +50,10 @@ class Draw():
 		im = Image.new('RGBA', (self.width, self.height), (0, 0, 0, 0))
 		draw = ImageDraw.Draw(im)
 		data = Draw.interpolate_data(odol.Sensor.Sensor.load_logfile(self.datafile), self.width if self.mode == "h" else self.height)
-	
+
+		if(max((int(data['r'][0]) + int(data['g'][0]) + int(data['b'][0])), (int(data['r'][-1]) + int(data['g'][-1]) + int(data['b'][-1]))) > 20):
+			return False
+		
 		for i in range(len(data['r'])):
 			fill_color = fill=(int(data['r'][i]),int(data['g'][i]),int(data['b'][i]))
 			if self.mode == "v":
